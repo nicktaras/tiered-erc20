@@ -16,7 +16,9 @@ contract FanToken is ERC20, Ownable {
 
     mapping(uint256 => Tier) public tierThresholds; // index => tier range
     uint256[] private tierIndexes;
-    
+
+    mapping(uint256 => string) private _tokenURIs; // tokenId -> tokenURI
+
     event TierUpdated(uint256 indexed tier, uint256 minTokens, uint256 maxTokens);
     event TiersCleared();
 
@@ -82,6 +84,16 @@ contract FanToken is ERC20, Ownable {
             }
         }
         return false;
+    }
+
+    // Function to set the tokenURI for a specific token ID (tier-based URI)
+    function setTokenURI(uint256 tierId, string memory uri) external onlyOwner {
+        _tokenURIs[tierId] = uri;
+    }
+
+    // Function to get the tokenURI for a specific token ID (tier-based URI)
+    function tokenURI(uint256 tierId) external view returns (string memory) {
+        return _tokenURIs[tierId];
     }
 }
 ````
