@@ -95,3 +95,35 @@ contract FanToken is ERC20, Ownable {
     }
 }
 ````
+
+````
+// Example parameters for deployment
+string memory name = "FanToken";
+string memory symbol = "FAN";
+uint256 initialSupply = 1000000;
+uint256[] memory tiers = [1, 2, 3]; // Tier IDs
+uint256[] memory minTokens = [100, 200, 300];
+uint256[] memory maxTokens = [199, 299, 399];
+string[] memory tierURIs = [
+    "https://ipfs.io/ipfs/QmX1", // URI for tier 1
+    "https://ipfs.io/ipfs/QmX2", // URI for tier 2
+    "https://ipfs.io/ipfs/QmX3"  // URI for tier 3
+];
+
+// Deploy the contract
+FanToken fanToken = new FanToken(name, symbol, initialSupply, tiers, minTokens, maxTokens, tierURIs);
+````
+
+````
+{
+  "name": "Artist Name",
+  "description": "Exclusive music and updates from the artist.",
+  "website": "https://artistwebsite.com",
+  "music_url": "https://linktotheartistmusic.com",
+  "image": "https://linktotheimage.com/artistimage.jpg",
+  "gated_content": {
+    "url": "https://gatedcontent.com",
+    "access_control": "JWT_token_or_other_method"
+  }
+}
+````
