@@ -28,14 +28,17 @@ contract FanToken is ERC20, Ownable {
         uint256 initialSupply,
         uint256[] memory tiers,
         uint256[] memory minTokens,
-        uint256[] memory maxTokens
+        uint256[] memory maxTokens,
+        string[] memory tierURIs // new parameter for token URIs
     ) ERC20(name, symbol) {
         require(minTokens.length == maxTokens.length && minTokens.length == tiers.length, "Arrays must match");
+        require(tiers.length == tierURIs.length, "URIs must match tiers");
         _mint(msg.sender, initialSupply * 10 ** decimals());
         
         for (uint256 i = 0; i < tiers.length; i++) {
             tierThresholds[tiers[i]] = Tier(minTokens[i], maxTokens[i]);
             tierIndexes.push(tiers[i]);
+            _tokenURIs[tiers[i]] = tierURIs[i]; // setting the tokenURI during deployment
             emit TierUpdated(tiers[i], minTokens[i], maxTokens[i]);
         }
     }
@@ -84,11 +87,6 @@ contract FanToken is ERC20, Ownable {
             }
         }
         return false;
-    }
-
-    // Function to set the tokenURI for a specific token ID (tier-based URI)
-    function setTokenURI(uint256 tierId, string memory uri) external onlyOwner {
-        _tokenURIs[tierId] = uri;
     }
 
     // Function to get the tokenURI for a specific token ID (tier-based URI)
